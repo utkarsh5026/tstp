@@ -62,7 +62,7 @@ const makeResponseString = (res: Response): string => {
   const response = [];
   const status = `${res.httpVersion} ${res.statusCode} ${
     StatusCode[res.statusCode]
-  }`;
+  }\r\n`;
 
   const headers = Object.entries(res.headers)
     .map(([key, value]) => `${key}: ${value}`)
