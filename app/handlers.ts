@@ -40,6 +40,9 @@ export const createFileContentsResponse = async (
   console.log(__dirname, filePath, fileName);
   const body = await readFromFile(filePath);
   const length = body.length.toString();
+
+  if (length === "0")
+    return new HttpResponse(HTTP_VERSION, StatusCode.NOT_FOUND, {}, "");
   const headers = {
     "Content-Type": "application/octet-stream",
     "Content-Length": length,
