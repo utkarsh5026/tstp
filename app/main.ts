@@ -62,7 +62,7 @@ const makeResponseString = (res: Response): string => {
   const response = [];
   const status = `${res.httpVersion} ${res.statusCode} ${
     StatusCode[res.statusCode]
-  }\r\n`;
+  }`;
 
   const headers = Object.entries(res.headers)
     .map(([key, value]) => `${key}: ${value}`)
@@ -85,6 +85,7 @@ const server = net.createServer((socket) => {
 
     const response = makeResponseString(res);
 
+    console.log(response);
     socket.write(response);
     socket.end();
   });
