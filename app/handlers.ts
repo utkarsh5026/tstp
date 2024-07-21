@@ -31,9 +31,10 @@ export const createUserAgentResponse = (req: HttpRequest): HttpResponse => {
 };
 
 export const createFileContentsResponse = async (
-  filePath: string
+  filePath: string,
+  req: HttpRequest
 ): Promise<HttpResponse> => {
-  const fileName = filePath.split("/").pop() || "";
+  const fileName = req.path.split("/").pop() || "";
   filePath = path.join(".", filePath, fileName);
 
   console.log(__dirname, filePath, fileName);
