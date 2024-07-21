@@ -1,3 +1,4 @@
+import * as path from "path";
 import { HttpResponse, StatusCode, HTTP_VERSION } from "./response";
 import { HttpRequest } from "./request";
 import { readFromFile } from "./file";
@@ -30,12 +31,13 @@ export const createUserAgentResponse = (req: HttpRequest): HttpResponse => {
 };
 
 export const createFileContentsResponse = async (
-  path: string
+  filePath: string
 ): Promise<HttpResponse> => {
-  const body = await readFromFile(path);
+  filePath = path.join(__dirname, filePath);
+  const body = await readFromFile(filePath);
   const length = body.length.toString();
   const headers = {
-    "Content-Type": "text/plain",
+    "Content-Type": "application/octet-stream",
     "Content-Length": length,
   };
 
