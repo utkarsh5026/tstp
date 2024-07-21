@@ -21,6 +21,7 @@ export class HttpRequest {
     const [method, path] = parts[0].split(" ");
 
     const headers = parts.slice(1, -2).reduce((acc, line) => {
+      line = line.trim();
       const [key, value] = line.split(": ");
       acc[key] = value;
       return acc;

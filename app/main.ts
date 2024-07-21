@@ -19,10 +19,14 @@ const createUserAgentResponse = (req: HttpRequest): HttpResponse => {
   const body = req.headers["User-Agent"] || "";
   const length = body.length.toString();
 
+  console.log(req.headers);
+
   const headers = {
     "Content-Type": "text/plain",
     "Content-Length": length,
   };
+
+  console.log(body + " " + length);
 
   return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, body);
 };
