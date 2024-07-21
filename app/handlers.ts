@@ -35,7 +35,7 @@ export const createFileContentsResponse = async (
   req: HttpRequest
 ): Promise<HttpResponse> => {
   const fileName = req.path.split("/").pop() || "";
-  filePath = path.join(".", filePath, fileName);
+  filePath = path.join(filePath, fileName);
 
   console.log(__dirname, filePath, fileName);
   const body = await readFromFile(filePath);
