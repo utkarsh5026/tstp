@@ -18,6 +18,10 @@ class ResponseWriter {
     this.parts.push("\r\n");
   }
 
+  writeBody(body: string) {
+    this.parts.push(body);
+  }
+
   writeHeaders(headers: Record<string, string | number>) {
     const headerStrings = Object.entries(headers).map(
       ([key, value]) => `${key}: ${value}`
@@ -63,7 +67,7 @@ export class HttpResponse {
     this.writer.writeString(statusLine);
     this.writer.writeHeaders(this.headers);
     this.writer.writeString("\r\n");
-    this.writer.writeString(this.body);
+    this.writer.writeBody(this.body);
 
     const result = this.writer.toString();
     this.writer.clear();
