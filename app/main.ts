@@ -4,13 +4,8 @@ import { HttpRequest } from "./request";
 
 const HTTP_VERSION = "HTTP/1.1";
 
-const createResponse = (req: HttpRequest): HttpResponse => {
+const createResponseForEcho = (req: HttpRequest): HttpResponse => {
   const path = req.path;
-  const badPath = !path.startsWith("/echo/");
-
-  if (badPath)
-    return new HttpResponse(HTTP_VERSION, StatusCode.NOT_FOUND, {}, "");
-
   const echoPath = path.split("/").pop() || "";
   const length = echoPath.length.toString();
   const headers = {
@@ -20,6 +15,12 @@ const createResponse = (req: HttpRequest): HttpResponse => {
   return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, echoPath);
 };
 
+const createResponse = (req: HttpRequest): HttpResponse => {
+  if (req.path.startsWith("/echo")) return createResponseForEcho(req);
+  if (req.path === "/")
+    return new HttpResponse(HTTP_VERSION, StatusCode.OK, {}, "");
+  return new HttpResponse(HTTP_VERSION, StatusCode.NOT_FOUND, {}, "");
+};
 const server = net.createServer((socket) => {
   socket.on("close", () => {
     socket.end();
