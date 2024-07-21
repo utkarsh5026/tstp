@@ -8,7 +8,7 @@ import {
 } from "./handlers";
 
 console.log(process.argv);
-const FILE_PATH = process.argv[2];
+const FILE_PATH = process.argv.length == 4 ? process.argv[3] : "";
 
 const createResponse = async (req: HttpRequest): Promise<HttpResponse> => {
   if (req.path.startsWith("/file"))
