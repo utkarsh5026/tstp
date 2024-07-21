@@ -7,7 +7,7 @@ export enum StatusCode {
 const StatusNames: Record<StatusCode, string> = {
   200: "OK",
   201: "Created",
-  404: "NOT_FOUND",
+  404: "Not Found",
 };
 
 class ResponseWriter {
