@@ -48,7 +48,7 @@ const createResponse = (req: Request): Response => {
   const echoPath = path.split("/").pop();
   const length = echoPath ? echoPath.length.toString() : "0";
   return {
-    httpVersion: "1.1",
+    httpVersion: "HTTP/1.1",
     statusCode: 200,
     headers: {
       "Content-Type": "text/plain",
