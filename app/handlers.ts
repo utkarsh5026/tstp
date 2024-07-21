@@ -36,7 +36,7 @@ export const createFileContentsResponse = async (
   const fileName = filePath.split("/").pop() || "";
   filePath = path.join(".", filePath, fileName);
 
-  console.log(__dirname, filePath);
+  console.log(__dirname, filePath, fileName);
   const body = await readFromFile(filePath);
   const length = body.length.toString();
   const headers = {
