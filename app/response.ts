@@ -10,6 +10,8 @@ const StatusNames: Record<StatusCode, string> = {
   404: "Not Found",
 };
 
+export const HTTP_VERSION = "HTTP/1.1";
+
 class ResponseWriter {
   private parts: string[] = [];
 
