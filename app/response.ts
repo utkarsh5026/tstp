@@ -27,7 +27,7 @@ class ResponseWriter {
       ([key, value]) => `${key}: ${value}`
     );
     this.parts.push(headerStrings.join("\r\n"));
-    this.parts.push("\r\n");
+    this.parts.push("\r\n\r\n");
   }
 
   toString(): string {
@@ -66,7 +66,6 @@ export class HttpResponse {
 
     this.writer.writeString(statusLine);
     this.writer.writeHeaders(this.headers);
-    this.writer.writeString("\r\n");
     this.writer.writeBody(this.body);
 
     const result = this.writer.toString();
