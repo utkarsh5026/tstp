@@ -15,7 +15,20 @@ const createResponseForEcho = (req: HttpRequest): HttpResponse => {
   return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, echoPath);
 };
 
+const createUserAgentResponse = (req: HttpRequest): HttpResponse => {
+  const body = req.headers["User-Agent"] || "";
+  const length = body.length.toString();
+
+  const headers = {
+    "Content-Type": "text/plain",
+    "Content-Length": length,
+  };
+
+  return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, body);
+};
+
 const createResponse = (req: HttpRequest): HttpResponse => {
+  if (req.path.startsWith("/user-agent")) return createUserAgentResponse(req);
   if (req.path.startsWith("/echo")) return createResponseForEcho(req);
   if (req.path === "/")
     return new HttpResponse(HTTP_VERSION, StatusCode.OK, {}, "");
