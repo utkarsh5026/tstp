@@ -2,9 +2,21 @@ import * as net from "net";
 
 console.log("Logs from your program will appear here!");
 
+const StatusCode: { [key: number]: string } = {
+  200: "OK",
+  404: "Not Found",
+};
+
 interface Request {
   method: string;
   path: string;
+  headers: Record<string, string | number>;
+  body: string;
+}
+
+interface Response {
+  httpVersion: string;
+  statusCode: number;
   headers: Record<string, string>;
   body: string;
 }
@@ -21,6 +33,47 @@ const parseRequest = (data: Buffer): Request => {
   };
 };
 
+const createResponse = (req: Request): Response => {
+  const path = req.path;
+  const badPath = !path.startsWith("/echo/");
+
+  if (badPath)
+    return {
+      httpVersion: "1.1",
+      statusCode: 404,
+      headers: {},
+      body: "",
+    };
+
+  const echoPath = path.split("/").pop();
+  const length = echoPath ? echoPath.length.toString() : "0";
+  return {
+    httpVersion: "1.1",
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/plain",
+      "Content-Length": length,
+    },
+    body: echoPath ? echoPath : "",
+  };
+};
+
+const makeResponseString = (res: Response): string => {
+  const response = [];
+  const status = `${res.httpVersion} ${res.statusCode} ${
+    StatusCode[res.statusCode]
+  }`;
+
+  const headers = Object.entries(res.headers)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join("\r\n");
+
+  response.push(status);
+  response.push(headers);
+  response.push(res.body);
+  return response.join("\r\n");
+};
+
 const server = net.createServer((socket) => {
   socket.on("close", () => {
     socket.end();
@@ -28,14 +81,12 @@ const server = net.createServer((socket) => {
 
   socket.on("data", (data) => {
     const req = parseRequest(data);
-    const paths = req.path.split("/");
-    const echoPath = paths[paths.length - 1];
+    const res = createResponse(req);
 
-    socket.write(`HTTP/1.1 200 OK\r\n`);
-    socket.write(`Content-Type: text/plain\r\n`);
-    socket.write(`Content-Length: ${echoPath.length}\r\n`);
-    socket.write(`\r\n`);
-    socket.write(echoPath);
+    const response = makeResponseString(res);
+
+    socket.write(response);
+    socket.end();
   });
 });
 
