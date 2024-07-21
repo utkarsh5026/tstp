@@ -61,7 +61,7 @@ export class HttpResponse {
 
   toString(): string {
     const statusLine = `${this.httpVersion} ${this.statusCode} ${
-      StatusCode[this.statusCode]
+      StatusNames[this.statusCode]
     }`;
 
     this.writer.writeString(statusLine);
