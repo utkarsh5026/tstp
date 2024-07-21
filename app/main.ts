@@ -28,7 +28,7 @@ const server = net.createServer((socket) => {
   socket.on("data", (data) => {
     const req = HttpRequest.fromBuffer(data);
     const res = createResponse(req);
-    console.log(res);
+    console.log(res.toString());
     socket.write(res.toString());
     socket.end();
   });

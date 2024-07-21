@@ -29,6 +29,10 @@ class ResponseWriter {
   toString(): string {
     return this.parts.join("");
   }
+
+  clear() {
+    this.parts = [];
+  }
 }
 
 export class HttpResponse {
@@ -60,6 +64,8 @@ export class HttpResponse {
     this.writer.writeHeaders(this.headers);
     this.writer.writeString(this.body);
 
-    return this.writer.toString();
+    const result = this.writer.toString();
+    this.writer.clear();
+    return result;
   }
 }
