@@ -2,12 +2,23 @@ import * as net from "net";
 
 console.log("Logs from your program will appear here!");
 
-const isGoodPath = (data: Buffer): boolean => {
-  const req = data.toString();
-  const parts = req.split("\r\n");
-  const method = parts[0];
-  const path = method.split(" ")[1];
-  return path === "/";
+interface Request {
+  method: string;
+  path: string;
+  headers: Record<string, string>;
+  body: string;
+}
+
+const parseRequest = (data: Buffer): Request => {
+  const parts = data.toString().split("\n");
+  const [method, path] = parts[0].split(" ");
+
+  return {
+    method,
+    path,
+    headers: {},
+    body: "",
+  };
 };
 
 const server = net.createServer((socket) => {
@@ -16,13 +27,15 @@ const server = net.createServer((socket) => {
   });
 
   socket.on("data", (data) => {
-    const goodPath = isGoodPath(data);
-    const resp = goodPath
-      ? `HTTP/1.1 200 OK\r\n\r\n`
-      : `HTTP/1.1 404 Not Found\r\n\r\n`;
-    socket.write(resp);
+    const req = parseRequest(data);
+    const paths = req.path.split("/");
+    const echoPath = paths[paths.length - 1];
 
-    socket.end();
+    socket.write(`HTTP/1.1 200 OK\r\n`);
+    socket.write(`Content-Type: text/plain\r\n`);
+    socket.write(`Content-Length: ${echoPath.length}\r\n`);
+    socket.write(`\r\n`);
+    socket.write(echoPath);
   });
 });
 
