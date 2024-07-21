@@ -34,6 +34,8 @@ export const createFileContentsResponse = async (
   filePath: string
 ): Promise<HttpResponse> => {
   filePath = path.join(__dirname, filePath);
+
+  console.log(filePath);
   const body = await readFromFile(filePath);
   const length = body.length.toString();
   const headers = {
