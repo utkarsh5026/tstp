@@ -62,6 +62,7 @@ export class HttpResponse {
 
     this.writer.writeString(statusLine);
     this.writer.writeHeaders(this.headers);
+    this.writer.writeString("\r\n");
     this.writer.writeString(this.body);
 
     const result = this.writer.toString();
