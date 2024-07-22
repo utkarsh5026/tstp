@@ -16,9 +16,10 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
 
       console.log("Gzipping response " + res.getBody());
+      let buffer = res.getBody();
+
+      if (buffer instanceof String) buffer = Buffer.from(buffer, "utf-8");
       const body = gzipSync(res.getBody());
-      console.log("Gzipped response");
-      console.log(gunzipSync(body).toString());
       res.setBody(body);
     }
   }
