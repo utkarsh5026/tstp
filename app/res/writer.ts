@@ -15,10 +15,13 @@ export class ResponseWriter {
       ([key, value]) => `${key}: ${value}`
     );
     this.parts.push(headerStrings.join("\r\n"));
-    this.parts.push("\r\n\r\n");
+
+    if (headerStrings.length > 0) this.parts.push("\r\n\r\n");
+    else this.parts.push("\r\n");
   }
 
   toString(): string {
+    console.log(this.parts);
     return this.parts.join("");
   }
 

@@ -45,8 +45,6 @@ export class HttpResponse {
     const statusLine = `${HTTP_VERSION} ${code} ${StatusNames[code]}`;
     writer.writeString(statusLine);
     writer.writeHeaders(this.headers);
-
-    // console.log(writer.toString(), statusLine);
     this.socket.write(writer.toString());
     if (body.length > 0) this.socket.write(body);
   }
