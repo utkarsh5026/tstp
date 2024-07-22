@@ -15,7 +15,7 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
     if (encoding.trim() === "gzip") {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
       const body = await gzipEncode(res.body);
-      res.setBody(body.toString("base64"));
+      res.setBody(body.toString());
       break;
     }
   }

@@ -37,6 +37,7 @@ const server = net.createServer((socket) => {
     const req = HttpRequest.fromBuffer(data);
     const res = await createResponse(req);
 
+    console.log(res);
     handleEncoding(req, res);
     handleContentLength(req, res);
 
