@@ -10,13 +10,11 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
     return;
   }
   const acceptEncoding = req.getHeader(HttpReqHeader.AcceptEncoding).split(",");
-
-  console.log("Accept-Encoding:", acceptEncoding);
   for (const encoding of acceptEncoding) {
     if (encoding.trim() === "gzip") {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
       const body = await gzipEncode(res.body);
-      console.log(body);
+      console.log("Compressed body length:", body.length, res.body);
       res.setBody(body.toString());
       break;
     }
