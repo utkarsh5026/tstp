@@ -75,10 +75,10 @@ export class Cookie {
   toString(): string {
     let cookieString = `${this._name}=${encodeURIComponent(this._value)}`;
 
-    if (this._options.maxAge)
-      cookieString += `; Max-Age=${this._options.maxAge}`;
     if (this._options.expires)
       cookieString += `; Expires=${this._options.expires.toUTCString()}`;
+    if (this._options.maxAge != undefined)
+      cookieString += `; Max-Age=${this._options.maxAge}`;
     if (this._options.httpOnly) cookieString += "; HttpOnly";
     if (this._options.secure) cookieString += "; Secure";
     if (this._options.domain)
