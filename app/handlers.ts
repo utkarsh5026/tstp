@@ -14,6 +14,7 @@ export const createResponseForEcho = (req: HttpRequest, res: HttpResponse) => {
     "Content-Length": length,
   };
 
+  res.setBody(echoPath);
   handleEncoding(req, res);
   res.send(StatusCode.OK, res.getBody(), headers);
 };
