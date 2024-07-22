@@ -17,7 +17,7 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
       const body = await gzipEncode(res.body);
       console.log("Compressed body length:", body.length, res.body);
-      res.setBody(body.toString());
+      res.setBody(body.toString("hex"));
       break;
     }
   }
