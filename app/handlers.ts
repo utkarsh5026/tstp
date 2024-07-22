@@ -15,7 +15,7 @@ export const createResponseForEcho = (req: HttpRequest, res: HttpResponse) => {
   };
 
   handleEncoding(req, res);
-  res.send(StatusCode.OK, echoPath, headers);
+  res.send(StatusCode.OK, res.getBody(), headers);
 };
 
 export const createUserAgentResponse = (
