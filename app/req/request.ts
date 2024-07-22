@@ -41,4 +41,8 @@ export class HttpRequest {
   getHeader(key: string): string {
     return this.headers[key];
   }
+
+  containsHeader(key: string): boolean {
+    return key in this.headers;
+  }
 }

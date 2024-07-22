@@ -12,6 +12,9 @@ export enum HttpResHeader {
 
 export const handleEncoding = (req: HttpRequest, res: HttpResponse) => {
   console.log(req.headers);
+  if (!req.containsHeader(HttpReqHeader.AcceptEncoding)) {
+    return;
+  }
   const acceptEncoding = req.getHeader(HttpReqHeader.AcceptEncoding).split(",");
 
   for (const encoding of acceptEncoding) {
