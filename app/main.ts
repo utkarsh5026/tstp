@@ -1,7 +1,7 @@
 import * as net from "net";
 import { HttpResponse, StatusCode, HTTP_VERSION } from "./res/response";
 import { HttpRequest, HttpMethod } from "./req/request";
-import { HttpReqHeader, HttpResHeader, handleEncoding } from "./req/header";
+import { handleEncoding, handleContentLength } from "./header/handle";
 import {
   createResponseForEcho,
   createUserAgentResponse,
@@ -38,6 +38,7 @@ const server = net.createServer((socket) => {
     const res = await createResponse(req);
 
     handleEncoding(req, res);
+    handleContentLength(req, res);
 
     socket.write(res.toString());
     socket.end();

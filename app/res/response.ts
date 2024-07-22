@@ -82,4 +82,8 @@ export class HttpResponse {
   getHeader(key: string): string | number | undefined {
     return this.headers[key];
   }
+
+  setBody(body: string) {
+    this.body = body;
+  }
 }
