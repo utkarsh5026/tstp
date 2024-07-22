@@ -2,7 +2,7 @@ import { HttpResponse } from "../res/response";
 import { HttpRequest } from "../req/request";
 import { HttpReqHeader } from "./req";
 import { HttpResHeader } from "./res";
-import { gunzipSync, gzipSync } from "zlib";
+import { gzipSync } from "zlib";
 
 export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
   if (!req.containsHeader(HttpReqHeader.AcceptEncoding)) {
@@ -25,7 +25,10 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
   }
 };
 
-const handleContentLength = async (_req: HttpRequest, res: HttpResponse) => {
+export const handleContentLength = async (
+  _req: HttpRequest,
+  res: HttpResponse
+) => {
   const body = res.getBody();
   if (body) {
     res.setHeader(HttpResHeader.ContentLength, body.length);

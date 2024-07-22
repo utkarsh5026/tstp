@@ -8,14 +8,14 @@ import { handleEncoding } from "./header/handle";
 export const createResponseForEcho = (req: HttpRequest, res: HttpResponse) => {
   const path = req.path;
   const echoPath = path.split("/").pop() ?? "";
-  const length = echoPath.length.toString();
-  const headers = {
-    "Content-Type": "text/plain",
-    "Content-Length": length,
-  };
 
   res.setBody(echoPath);
   handleEncoding(req, res);
+
+  const headers = {
+    "Content-Type": "text/plain",
+    "Content-Length": res.getBody ? res.getBody().length.toString() : "0",
+  };
   res.send(StatusCode.OK, res.getBody(), headers);
 };
 
