@@ -37,4 +37,8 @@ export class HttpRequest {
     const body = parts.slice(-1)[0];
     return new HttpRequest(method as HttpMethod, path, headers, body);
   }
+
+  getHeader(key: string): string {
+    return this.headers[key];
+  }
 }

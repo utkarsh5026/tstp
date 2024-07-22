@@ -1,6 +1,6 @@
 import * as path from "path";
-import { HttpResponse, StatusCode, HTTP_VERSION } from "./response";
-import { HttpRequest } from "./request";
+import { HttpResponse, StatusCode, HTTP_VERSION } from "./res/response";
+import { HttpRequest } from "./req/request";
 import { readFromFile, writeToFile } from "./file";
 
 export const createResponseForEcho = (req: HttpRequest): HttpResponse => {

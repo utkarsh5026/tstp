@@ -1,6 +1,7 @@
 import * as net from "net";
-import { HttpResponse, StatusCode, HTTP_VERSION } from "./response";
-import { HttpRequest, HttpMethod } from "./request";
+import { HttpResponse, StatusCode, HTTP_VERSION } from "./res/response";
+import { HttpRequest, HttpMethod } from "./req/request";
+import { HttpReqHeader, HttpResHeader } from "./req/header";
 import {
   createResponseForEcho,
   createUserAgentResponse,
@@ -35,7 +36,10 @@ const server = net.createServer((socket) => {
   socket.on("data", async (data) => {
     const req = HttpRequest.fromBuffer(data);
     const res = await createResponse(req);
-    console.log(res.toString());
+
+    if (req.getHeader(HttpReqHeader.AcceptEncoding) === "gzip")
+      res.setHeader(HttpResHeader.ContentEncoding, "gzip");
+
     socket.write(res.toString());
     socket.end();
   });

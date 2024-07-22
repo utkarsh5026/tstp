@@ -74,4 +74,12 @@ export class HttpResponse {
     this.writer.clear();
     return result;
   }
+
+  setHeader(key: string, value: string | number) {
+    this.headers[key] = value;
+  }
+
+  getHeader(key: string): string | number | undefined {
+    return this.headers[key];
+  }
 }
