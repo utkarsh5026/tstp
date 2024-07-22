@@ -2,7 +2,7 @@ import { HttpResponse } from "../res/response";
 import { HttpRequest } from "../req/request";
 import { HttpReqHeader } from "./req";
 import { HttpResHeader } from "./res";
-import { gzipSync } from "zlib";
+import { gunzipSync, gzipSync } from "zlib";
 
 export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
   if (!req.containsHeader(HttpReqHeader.AcceptEncoding)) {
@@ -15,8 +15,10 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
     if (encoding.trim() === "gzip") {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
 
-      console.log("Gzipping response" + res.getBody());
+      console.log("Gzipping response " + res.getBody());
       const body = gzipSync(res.getBody());
+      console.log("Gzipped response " + body);
+      console.log(gunzipSync(body).toString());
       res.setBody(body);
     }
   }
