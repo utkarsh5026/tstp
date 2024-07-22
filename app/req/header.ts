@@ -1,11 +1,6 @@
 import { HttpResponse } from "../res/response";
 import { HttpRequest } from "./request";
 
-enum HttpHeader {
-  ContentType = "Content-Type",
-  Authorization = "Authorization",
-}
-
 export enum HttpReqHeader {
   AcceptEncoding = "Accept-Encoding",
 }
@@ -16,9 +11,8 @@ export enum HttpResHeader {
 }
 
 export const handleEncoding = (req: HttpRequest, res: HttpResponse) => {
-  const acceptEncoding = req.getHeader(HttpReqHeader.AcceptEncoding).split(",");
-
   console.log(req.headers);
+  const acceptEncoding = req.getHeader(HttpReqHeader.AcceptEncoding).split(",");
 
   for (const encoding of acceptEncoding) {
     if (encoding.trim() === "gzip") {
