@@ -32,20 +32,23 @@ export class HttpResponse {
 
   send(
     code: StatusCode,
-    body: Buffer | string,
+    body: ResponseBody,
     headers: Record<string, string> = {}
   ) {
-    Object.entries(headers).forEach(([key, value]) => {
-      this.setHeader(key, value);
-    });
+    if (headers instanceof Object)
+      Object.entries(headers).forEach(([key, value]) => {
+        this.setHeader(key, value);
+      });
 
     const writer = new ResponseWriter();
 
     const statusLine = `${HTTP_VERSION} ${code} ${StatusNames[code]}`;
     writer.writeString(statusLine);
     writer.writeHeaders(this.headers);
+
+    // console.log(writer.toString(), statusLine);
     this.socket.write(writer.toString());
-    this.socket.write(body);
+    if (body.length > 0) this.socket.write(body);
   }
 
   getBody(): ResponseBody {

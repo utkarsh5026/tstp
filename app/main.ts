@@ -14,9 +14,11 @@ const FILE_PATH = process.argv.length == 4 ? process.argv[3] : "";
 const sendResponse = async (req: HttpRequest, res: HttpResponse) => {
   switch (true) {
     case req.path.startsWith("/file") && req.method === HttpMethod.GET:
+      console.log("Getting file");
       await createFileContentsResponse(FILE_PATH, req, res);
       break;
     case req.path.startsWith("/file") && req.method === HttpMethod.POST:
+      console.log("Saving file");
       await saveFile(req, res, FILE_PATH);
       break;
     case req.path.startsWith("/user-agent"):

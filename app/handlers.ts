@@ -57,7 +57,7 @@ export const saveFile = async (
   res: HttpResponse,
   filePath: string
 ) => {
-  const fileName = req.path.split("/").pop() || "";
+  const fileName = req.path.split("/").pop() ?? "";
   const contents = req.body;
 
   filePath = path.join(filePath, fileName);
