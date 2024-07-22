@@ -11,7 +11,7 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
   }
   const acceptEncoding = req.getHeader(HttpReqHeader.AcceptEncoding).split(",");
 
-  console.log(acceptEncoding);
+  console.log("Accept-Encoding:", acceptEncoding);
   for (const encoding of acceptEncoding) {
     if (encoding.trim() === "gzip") {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
