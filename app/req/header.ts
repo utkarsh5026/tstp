@@ -18,6 +18,8 @@ export enum HttpResHeader {
 export const handleEncoding = (req: HttpRequest, res: HttpResponse) => {
   const acceptEncoding = req.getHeader(HttpReqHeader.AcceptEncoding).split(",");
 
+  console.log(req.headers);
+
   for (const encoding of acceptEncoding) {
     if (encoding.trim() === "gzip") {
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
