@@ -45,8 +45,10 @@ export class HttpResponse {
     const statusLine = `${HTTP_VERSION} ${code} ${StatusNames[code]}`;
     writer.writeString(statusLine);
     writer.writeHeaders(this.headers);
+
+    console.log("co", writer.toString());
     this.socket.write(writer.toString());
-    if (body.length > 0) this.socket.write(body);
+    this.socket.write(body);
   }
 
   getBody(): ResponseBody {

@@ -42,7 +42,7 @@ const server = net.createServer((socket) => {
   socket.on("data", async (data) => {
     const req = HttpRequest.fromBuffer(data);
     const res = HttpResponse.initialize(socket);
-    sendResponse(req, res);
+    await sendResponse(req, res);
     socket.end();
   });
 });
