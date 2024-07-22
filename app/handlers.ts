@@ -1,64 +1,65 @@
 import * as path from "path";
-import { HttpResponse, StatusCode, HTTP_VERSION } from "./res/response";
+import { HttpResponse } from "./res/response";
+import { StatusCode } from "./res/status";
 import { HttpRequest } from "./req/request";
 import { readFromFile, writeToFile } from "./file";
+import { handleEncoding } from "./header/handle";
 
-export const createResponseForEcho = (req: HttpRequest): HttpResponse => {
+export const createResponseForEcho = (req: HttpRequest, res: HttpResponse) => {
   const path = req.path;
-  const echoPath = path.split("/").pop() || "";
+  const echoPath = path.split("/").pop() ?? "";
   const length = echoPath.length.toString();
   const headers = {
     "Content-Type": "text/plain",
     "Content-Length": length,
   };
-  return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, echoPath);
+
+  handleEncoding(req, res);
+  res.send(StatusCode.OK, echoPath, headers);
 };
 
-export const createUserAgentResponse = (req: HttpRequest): HttpResponse => {
+export const createUserAgentResponse = (
+  req: HttpRequest,
+  res: HttpResponse
+) => {
   const body = req.headers["User-Agent"] || "";
   const length = body.length.toString();
-
-  console.log(req.headers);
-
   const headers = {
     "Content-Type": "text/plain",
     "Content-Length": length,
   };
 
-  console.log(body + " " + length);
-
-  return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, body);
+  res.send(StatusCode.OK, body, headers);
 };
 
 export const createFileContentsResponse = async (
   filePath: string,
-  req: HttpRequest
-): Promise<HttpResponse> => {
+  req: HttpRequest,
+  res: HttpResponse
+) => {
   const fileName = req.path.split("/").pop() || "";
   filePath = path.join(filePath, fileName);
-
-  console.log(__dirname, filePath, fileName);
   const body = await readFromFile(filePath);
   const length = body.length.toString();
 
-  if (length === "0")
-    return new HttpResponse(HTTP_VERSION, StatusCode.NOT_FOUND, {}, "");
+  if (length === "0") res.send(StatusCode.NOT_FOUND, "");
   const headers = {
     "Content-Type": "application/octet-stream",
     "Content-Length": length,
   };
 
-  return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, body);
+  res.send(StatusCode.OK, body, headers);
 };
 
 export const saveFile = async (
   req: HttpRequest,
+  res: HttpResponse,
   filePath: string
-): Promise<HttpResponse> => {
+) => {
   const fileName = req.path.split("/").pop() || "";
   const contents = req.body;
 
   filePath = path.join(filePath, fileName);
   await writeToFile(filePath, contents);
-  return new HttpResponse(HTTP_VERSION, StatusCode.CREATED, {}, "");
+  res.send(StatusCode.CREATED, "");
 };
