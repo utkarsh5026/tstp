@@ -41,6 +41,7 @@ const server = net.createServer((socket) => {
     handleEncoding(req, res);
     handleContentLength(req, res);
 
+    console.log(res.toString());
     socket.write(res.toString());
     socket.end();
   });
