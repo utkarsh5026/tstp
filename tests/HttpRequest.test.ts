@@ -91,9 +91,6 @@ describe("HttpRequest", () => {
     mockIncomingMessage.url = "/test?param1=value1";
     const req = new HttpRequest(mockIncomingMessage);
 
-    for (const key in req.query) {
-      console.log(key, req.query[key]);
-    }
     expect(req.query).toEqual({ param1: "value1" });
   });
 });
