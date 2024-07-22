@@ -17,7 +17,7 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
 
       console.log("Gzipping response " + res.getBody());
       const body = gzipSync(res.getBody());
-      console.log("Gzipped response " + body);
+      console.log("Gzipped response");
       console.log(gunzipSync(body).toString());
       res.setBody(body);
     }
