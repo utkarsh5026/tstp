@@ -9,3 +9,16 @@ export const readFromFile = async (path: string): Promise<string> => {
     return "";
   }
 };
+
+export const writeToFile = async (
+  path: string,
+  data: string
+): Promise<boolean> => {
+  try {
+    await fs.writeFile(path, data);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};

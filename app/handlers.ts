@@ -1,7 +1,7 @@
 import * as path from "path";
 import { HttpResponse, StatusCode, HTTP_VERSION } from "./response";
 import { HttpRequest } from "./request";
-import { readFromFile } from "./file";
+import { readFromFile, writeToFile } from "./file";
 
 export const createResponseForEcho = (req: HttpRequest): HttpResponse => {
   const path = req.path;
@@ -49,4 +49,16 @@ export const createFileContentsResponse = async (
   };
 
   return new HttpResponse(HTTP_VERSION, StatusCode.OK, headers, body);
+};
+
+export const saveFile = async (
+  req: HttpRequest,
+  filePath: string
+): Promise<HttpResponse> => {
+  const fileName = req.path.split("/").pop() || "";
+  const contents = req.body;
+
+  filePath = path.join(filePath, fileName);
+  await writeToFile(filePath, contents);
+  return new HttpResponse(HTTP_VERSION, StatusCode.CREATED, {}, "");
 };

@@ -1,10 +1,11 @@
 import * as net from "net";
 import { HttpResponse, StatusCode, HTTP_VERSION } from "./response";
-import { HttpRequest } from "./request";
+import { HttpRequest, HttpMethod } from "./request";
 import {
   createResponseForEcho,
   createUserAgentResponse,
   createFileContentsResponse,
+  saveFile,
 } from "./handlers";
 
 console.log(process.argv);
@@ -12,8 +13,10 @@ const FILE_PATH = process.argv.length == 4 ? process.argv[3] : "";
 
 const createResponse = async (req: HttpRequest): Promise<HttpResponse> => {
   switch (true) {
-    case req.path.startsWith("/file"):
+    case req.path.startsWith("/file") && req.method === HttpMethod.GET:
       return await createFileContentsResponse(FILE_PATH, req);
+    case req.path.startsWith("/file") && req.method === HttpMethod.POST:
+      return await saveFile(req, FILE_PATH);
     case req.path.startsWith("/user-agent"):
       return createUserAgentResponse(req);
     case req.path.startsWith("/echo"):

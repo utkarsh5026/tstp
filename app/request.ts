@@ -1,11 +1,18 @@
+export enum HttpMethod {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
+}
+
 export class HttpRequest {
-  method: string;
+  method: HttpMethod;
   path: string;
   headers: Record<string, string>;
   body: string;
 
   constructor(
-    method: string,
+    method: HttpMethod,
     path: string,
     headers: Record<string, string>,
     body: string
@@ -28,6 +35,6 @@ export class HttpRequest {
     }, {} as Record<string, string>);
 
     const body = parts.slice(-1)[0];
-    return new HttpRequest(method, path, headers, body);
+    return new HttpRequest(method as HttpMethod, path, headers, body);
   }
 }
