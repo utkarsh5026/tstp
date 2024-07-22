@@ -13,6 +13,7 @@ export const handleEncoding = async (req: HttpRequest, res: HttpResponse) => {
   for (const encoding of acceptEncoding) {
     console.log("Encoding:", encoding);
     if (encoding.trim() === "gzip") {
+      console.log("Compressing body");
       res.setHeader(HttpResHeader.ContentEncoding, "gzip");
       const body = await gzipEncode(res.body);
       console.log("Compressed body length:", body.length, res.body);
