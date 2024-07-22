@@ -8,6 +8,6 @@ export const gzipEncode = async (body: string): Promise<Buffer> => {
     });
   });
 
-  console.log("Compressed body length:", compressedBody, body);
+  console.log("Compressed body length:", compressedBody.length, body);
   return compressedBody;
 };
